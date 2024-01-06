@@ -74,7 +74,7 @@ def train(lr, epochs):
     models_dir = "models/%s/" % model_id
 
     if not os.path.exists(models_dir):
-        os.mkdir(models_dir)
+        os.mkdirs(models_dir)
 
     torch.save(checkpoint_d, os.path.join(models_dir, "model.pt"))
 

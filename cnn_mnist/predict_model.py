@@ -3,8 +3,6 @@ import torch
 from models.model import MyAwesomeModel
 from torch.utils.data import DataLoader
 
-import os
-
 
 @click.command()
 @click.argument("model_checkpoint")
