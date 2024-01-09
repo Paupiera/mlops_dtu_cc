@@ -1,11 +1,11 @@
-name: Docker Image CI
+name: "Docker Image CI"
 
 on:
-    push:
-        branches: [ master ]
+  push:
+    branches: [ master ]
 
 jobs:
-    build:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
