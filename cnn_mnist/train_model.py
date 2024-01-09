@@ -1,7 +1,8 @@
-import click
+# import click
+import argparse
 import torch
 from torch import nn, optim
-from models.model import MyAwesomeModel
+from cnn_mnist.models.model import MyAwesomeModel
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -10,27 +11,10 @@ import os
 from torch.utils.data import DataLoader, TensorDataset
 
 
-@click.command()
-@click.option("--lr", default=1e-3, help="learning rate to use for training")
-@click.option("--epochs", default=5, help="Training epochs")
-def train(lr, epochs):
+def train(train_loader, lr=1e-3, epochs=5, test=False):
     """Train a model on MNIST."""
     print("Training day and night")
-    print("lr: %s\nEpochs: %i" % (str(lr), epochs))
-
-    data_dir = "data/processed/"
-    train_images = torch.load(os.path.join(data_dir, "processed_images_train.pt"))
-    train_target = torch.load(os.path.join(data_dir, "processed_target_train.pt"))
-    # Create datasets
-    if len(train_images.shape) == 3:
-        train_dataset_tensor = TensorDataset(train_images.unsqueeze(1), train_target)
-    else:
-        train_dataset_tensor = TensorDataset(train_images, train_target)
-
-    # Create dataloaders
-    train_loader = DataLoader(
-        train_dataset_tensor, batch_size=64, shuffle=True, drop_last=True
-    )
+    print("lr: %s\nEpochs: %i\nTest: %s" % (str(lr), epochs, test))
 
     input_channels, xsize_input = next(iter(train_loader))[0].shape[1:3]
 
@@ -74,21 +58,39 @@ def train(lr, epochs):
     models_dir = "models/%s/" % model_id
 
     if not os.path.exists(models_dir):
-        os.mkdirs(models_dir)
-
-    torch.save(checkpoint_d, os.path.join(models_dir, "model.pt"))
+        os.makedirs(models_dir)
+    if not test:
+        torch.save(checkpoint_d, os.path.join(models_dir, "model.pt"))
 
     plot_dir = "reports/figures/%s/" % model_id
     if not os.path.exists(plot_dir):
-        os.mkdir(plot_dir)
+        os.makedirs(plot_dir)
 
     plt.plot(np.arange(epochs) + 1, train_losses, "o-")
     plt.xlabel("Epoch")
     plt.ylabel("NLL")
     plt.title("Training loss")
-    plt.savefig(os.path.join(plot_dir, "training_loss.png"))
+    if not test:
+        plt.savefig(os.path.join(plot_dir, "training_loss.png"))
     plt.close()
+
+    return e
 
 
 if __name__ == "__main__":
-    train()
+    data_dir = "data/processed/"
+    train_images = torch.load(os.path.join(data_dir, "processed_images_train.pt"))
+    train_target = torch.load(os.path.join(data_dir, "processed_target_train.pt"))
+    print(train_target.shape)
+    # Create datasets
+    if len(train_images.shape) == 3:
+        train_dataset_tensor = TensorDataset(train_images.unsqueeze(1), train_target)
+    else:
+        train_dataset_tensor = TensorDataset(train_images, train_target)
+
+    # Create dataloaders
+    train_loader = DataLoader(
+        train_dataset_tensor, batch_size=64, shuffle=True, drop_last=True
+    )
+
+    train(train_loader)

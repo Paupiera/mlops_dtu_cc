@@ -11,6 +11,8 @@ class MyAwesomeModel(nn.Module):
 
         self.convlayers = nn.ModuleList()
         self.convlayers = nn.ModuleList()
+        self.input_channels = input_channels
+        self.xsize_input = xsize_input
 
         for n_kernels, kernel_size in zip(number_of_kernels, kernel_sizes):
             self.convlayers.append(nn.Conv2d(input_channels, n_kernels, kernel_size))
@@ -26,17 +28,18 @@ class MyAwesomeModel(nn.Module):
             number_of_kernels[-1] * self.last_feature_xdim * self.last_feature_xdim, 10
         )
 
-        # self.model = nn.Sequential(
-        #     nn.Conv2d(1, 32, 3),
-        #     nn.ReLU(),
-        #     nn.Conv2d(32, 64, 3),
-        #     nn.ReLU(),
-        #     nn.Flatten(),
-        #     nn.Linear(64 * 24 * 24, 10),
-        #     nn.LogSoftmax(dim=1),
-        # )
-
     def forward(self, tensor):
+        if tensor.ndim != 4:
+            raise ValueError("Expected input to be a 4D tensor")
+
+        if tensor[0].shape[0] != self.input_channels:
+            raise ValueError("N_channels expected: %i" % self.input_channels)
+        if tensor[0].shape[1:] != (self.xsize_input, self.xsize_input):
+            raise ValueError(
+                "Wrong Input expected dimensions %i %i"
+                % (self.xsize_input, self.xsize_input)
+            )
+
         for convlayer in self.convlayers:
             tensor = self.relu(convlayer(tensor))
 
