@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }} 
     strategy:
       matrix:
-        os: [ubuntu-latest, maxos-latest]
+        os: [ubuntu-latest, macos-latest]
         python-version: ["3.11"]
         pytorch-version: ["1.12.0"]
 
