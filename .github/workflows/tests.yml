@@ -53,8 +53,3 @@ jobs:
         pip install pytest
         pytest -v
 
-name: Docker Image CI
-
-on:
-    push:
-        branches: [ master ]
