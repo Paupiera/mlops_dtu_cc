@@ -6,7 +6,9 @@ class MyAwesomeModel(nn.Module):
 
     """My awesome model."""
 
-    def __init__(self, number_of_kernels, kernel_sizes, input_channels, xsize_input):
+    def __init__(
+        self, number_of_kernels, kernel_sizes, input_channels, xsize_input, empty=False
+    ):
         super().__init__()
 
         self.convlayers = nn.ModuleList()
