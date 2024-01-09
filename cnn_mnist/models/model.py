@@ -18,7 +18,7 @@ class MyAwesomeModel(nn.Module):
             self.convlayers.append(nn.Conv2d(input_channels, n_kernels, kernel_size))
 
             input_channels = n_kernels
-            xsize_input -= 1  # 2
+            xsize_input -= 2
 
         self.last_feature_xdim = xsize_input
         self.relu = nn.ReLU()
