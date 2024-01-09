@@ -1,4 +1,4 @@
 click==8.1.7
-matplotlib==3.8.2
+matplotlib>=3.8.2
 numpy==1.26.3
 torch==2.1.2
