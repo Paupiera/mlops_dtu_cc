@@ -1,7 +1,4 @@
-import os
-
 import pytest
-from tests import _PROJECT_ROOT
 import torch
 
 from cnn_mnist.models.model import MyAwesomeModel

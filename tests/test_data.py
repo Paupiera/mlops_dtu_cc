@@ -18,9 +18,7 @@ def test_data():
 
     N_train, N_test = 30000, 5000
 
-    assert (
-        len(train_target) == N_train and len(test_target) == N_test
-    ), "Targets/Images dimensions do not match"
+    assert len(train_target) == N_train and len(test_target) == N_test, "Targets/Images dimensions do not match"
 
     assert train_images.shape == (len(train_target), 28, 28) and test_images.shape == (
         len(test_target),

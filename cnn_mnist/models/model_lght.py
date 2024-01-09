@@ -6,7 +6,6 @@ from pytorch_lightning.callbacks import EarlyStopping
 
 import torch
 from torch import nn, optim
-import torch.nn.functional as F
 from torch.utils.data import DataLoader, TensorDataset
 
 
@@ -36,9 +35,7 @@ class MyAwesomeModel(LightningModule):
         self.relu = nn.ReLU()
         self.flattent = nn.Flatten()
         self.logsoftmax = nn.LogSoftmax(dim=1)
-        self.outlinear = nn.Linear(
-            number_of_kernels[-1] * self.last_feature_xdim * self.last_feature_xdim, 10
-        )
+        self.outlinear = nn.Linear(number_of_kernels[-1] * self.last_feature_xdim * self.last_feature_xdim, 10)
 
     def forward(self, tensor):
         for convlayer in self.convlayers:
@@ -88,17 +85,11 @@ else:
     test_dataset_tensor = TensorDataset(test_images, test_target)
 
 # Create dataloaders
-train_loader = DataLoader(
-    train_dataset_tensor, batch_size=64, shuffle=True, drop_last=True
-)
-test_loader = DataLoader(
-    test_dataset_tensor, batch_size=64, shuffle=False, drop_last=False
-)
+train_loader = DataLoader(train_dataset_tensor, batch_size=64, shuffle=True, drop_last=True)
+test_loader = DataLoader(test_dataset_tensor, batch_size=64, shuffle=False, drop_last=False)
 
 # Add callbacks
-early_stopping_callback = EarlyStopping(
-    monitor="val_loss", patience=1, verbose=True, mode="min", min_delta=0.1
-)
+early_stopping_callback = EarlyStopping(monitor="val_loss", patience=1, verbose=True, mode="min", min_delta=0.1)
 
 trainer = Trainer(
     default_root_dir=os.getcwd(),

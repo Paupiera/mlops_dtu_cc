@@ -1,5 +1,4 @@
 # import click
-import argparse
 import torch
 from torch import nn, optim
 from cnn_mnist.models.model import MyAwesomeModel
@@ -89,8 +88,6 @@ if __name__ == "__main__":
         train_dataset_tensor = TensorDataset(train_images, train_target)
 
     # Create dataloaders
-    train_loader = DataLoader(
-        train_dataset_tensor, batch_size=64, shuffle=True, drop_last=True
-    )
+    train_loader = DataLoader(train_dataset_tensor, batch_size=64, shuffle=True, drop_last=True)
 
     train(train_loader)

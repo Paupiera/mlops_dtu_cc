@@ -1,5 +1,4 @@
 import torch.nn as nn
-import torch.nn.functional as F
 
 
 class MyAwesomeModel(nn.Module):
@@ -24,9 +23,7 @@ class MyAwesomeModel(nn.Module):
         self.relu = nn.ReLU()
         self.flattent = nn.Flatten()
         self.logsoftmax = nn.LogSoftmax(dim=1)
-        self.outlinear = nn.Linear(
-            number_of_kernels[-1] * self.last_feature_xdim * self.last_feature_xdim, 10
-        )
+        self.outlinear = nn.Linear(number_of_kernels[-1] * self.last_feature_xdim * self.last_feature_xdim, 10)
 
     def forward(self, tensor):
         if tensor.ndim != 4:
@@ -35,10 +32,7 @@ class MyAwesomeModel(nn.Module):
         if tensor[0].shape[0] != self.input_channels:
             raise ValueError("N_channels expected: %i" % self.input_channels)
         if tensor[0].shape[1:] != (self.xsize_input, self.xsize_input):
-            raise ValueError(
-                "Wrong Input expected dimensions %i %i"
-                % (self.xsize_input, self.xsize_input)
-            )
+            raise ValueError("Wrong Input expected dimensions %i %i" % (self.xsize_input, self.xsize_input))
 
         for convlayer in self.convlayers:
             tensor = self.relu(convlayer(tensor))
