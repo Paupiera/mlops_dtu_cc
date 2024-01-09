@@ -12,7 +12,7 @@ import torch
 from torch.utils.data import DataLoader, TensorDataset
 from torch import nn, optim
 
-from cnn_mnist.models.model import MyAwesomeModel
+from models.model import MyAwesomeModel
 
 
 def train_cml(train_loader, test=False):
@@ -94,7 +94,11 @@ if __name__ == "__main__":
         test_dataset_tensor = TensorDataset(test_images, test_target)
 
     # Create dataloaders
-    train_loader = DataLoader(train_dataset_tensor, batch_size=64, shuffle=True, drop_last=True)
-    test_loader = DataLoader(test_dataset_tensor, batch_size=64, shuffle=False, drop_last=False)
+    train_loader = DataLoader(
+        train_dataset_tensor, batch_size=64, shuffle=True, drop_last=True
+    )
+    test_loader = DataLoader(
+        test_dataset_tensor, batch_size=64, shuffle=False, drop_last=False
+    )
 
     train_cml(train_loader, test_loader)
