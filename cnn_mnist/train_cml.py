@@ -31,7 +31,7 @@ def train_cml(train_loader, test=False):
     )
     criterion = nn.NLLLoss()
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
-    epochs = 5
+    epochs = 2
     model.train()
     for e in range(epochs):
         for images, labels in train_loader:
@@ -94,7 +94,11 @@ if __name__ == "__main__":
         test_dataset_tensor = TensorDataset(test_images, test_target)
 
     # Create dataloaders
-    train_loader = DataLoader(train_dataset_tensor, batch_size=64, shuffle=True, drop_last=True)
-    test_loader = DataLoader(test_dataset_tensor, batch_size=64, shuffle=False, drop_last=False)
+    train_loader = DataLoader(
+        train_dataset_tensor, batch_size=64, shuffle=True, drop_last=True
+    )
+    test_loader = DataLoader(
+        test_dataset_tensor, batch_size=64, shuffle=False, drop_last=False
+    )
 
     train_cml(train_loader, test_loader)
