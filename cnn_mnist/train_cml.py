@@ -2,7 +2,6 @@ import datetime
 import os
 
 import matplotlib.pyplot as plt
-import numpy as np
 from sklearn.metrics import (
     classification_report,
     confusion_matrix,
@@ -35,7 +34,6 @@ def train_cml(train_loader, test=False):
     epochs = 5
     model.train()
     for e in range(epochs):
-        running_loss = 0
         for images, labels in train_loader:
             optimizer.zero_grad()
 
@@ -64,13 +62,15 @@ def train_cml(train_loader, test=False):
         os.makedirs(plot_dir)
 
     report = classification_report(target, preds)
-    with open(os.path.join(plot_dir, "classification_report.txt"), "w") as outfile:
+    # with open(os.path.join(plot_dir, "classification_report.txt"), "w") as outfile:
+    with open("classification_report.txt", "w") as outfile:
         outfile.write(report)
     confmat = confusion_matrix(target, preds)
     print(confmat)
     disp = ConfusionMatrixDisplay(confmat)
     disp.plot()
-    plt.savefig(os.path.join(plot_dir, "confusion_matrix.png"))
+    # plt.savefig(os.path.join(plot_dir, "confusion_matrix.png"))
+    plt.savefig("confusion_matrix.png")
 
 
 if __name__ == "__main__":
@@ -94,11 +94,7 @@ if __name__ == "__main__":
         test_dataset_tensor = TensorDataset(test_images, test_target)
 
     # Create dataloaders
-    train_loader = DataLoader(
-        train_dataset_tensor, batch_size=64, shuffle=True, drop_last=True
-    )
-    test_loader = DataLoader(
-        test_dataset_tensor, batch_size=64, shuffle=False, drop_last=False
-    )
+    train_loader = DataLoader(train_dataset_tensor, batch_size=64, shuffle=True, drop_last=True)
+    test_loader = DataLoader(test_dataset_tensor, batch_size=64, shuffle=False, drop_last=False)
 
     train_cml(train_loader, test_loader)
