@@ -37,8 +37,8 @@ jobs:
         env:
             GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
 
-      - name: Train model 
-        run: |          
+      - name: Train model
+        run: |
           python cnn_mnist/train_cml.py  # run training
 
       - name: Write report
@@ -47,8 +47,8 @@ jobs:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # send all information to report.md that will be reported to us when the workflow finish
-          cat classification_report.txt >> report.md          
-          
+          cat classification_report.txt >> report.md
+          cml-send-comment report.md
 
 # cml-publish confusion_matrix.png --md >> report.md
 # cml-send-comment report.md
