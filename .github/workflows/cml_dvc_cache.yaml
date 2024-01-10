@@ -34,7 +34,7 @@ jobs:
 
       - name: Download data
         run: |          
-          dvc pull data --run-cache
+          dvc pull data 
 
       - name: Train model 
         run: |          
