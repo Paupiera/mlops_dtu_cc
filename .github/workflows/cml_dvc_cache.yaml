@@ -1,4 +1,4 @@
-name: DVC & train-my-model 
+name: DVC & train-my-model (cache)
 on: [push]
 jobs:
   run:
